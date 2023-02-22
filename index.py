@@ -6,7 +6,7 @@ import io
 import speech_recognition as sr
 
 # Configurar la API key de OpenAI
-openai.api_key = "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"
+openai.api_key = ""
 
 # Definir las opciones de modelo de OpenAI
 models = ["davinci", "curie", "babbage", "ada", "text-davinci-002"]
