@@ -1,4 +1,5 @@
 openai
 SpeechRecognition
+sounddevice
+numpy
 streamlit
-
