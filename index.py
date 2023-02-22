@@ -1,9 +1,12 @@
 import openai
 import streamlit as st
+import sounddevice as sd
+import numpy as np
+import io
 import speech_recognition as sr
 
 # Configurar la API key de OpenAI
-openai.api_key = "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"
+openai.api_key = "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"
 
 # Definir las opciones de modelo de OpenAI
 models = ["davinci", "curie", "babbage", "ada", "text-davinci-002"]
@@ -45,20 +48,27 @@ def main():
     st.title("Jarvis")
     st.write("Pulsa el botón de grabar y di tu comando")
 
+    fs = 44100
+    duration = 5.0
+
+    myrecording = sd.rec(int(duration * fs), samplerate=fs, channels=1)
+    sd.wait()
+
+    audio_bytes = io.BytesIO()
+    np.savetxt(audio_bytes, myrecording, delimiter=',')
+    audio_bytes.seek(0)
+
     r = sr.Recognizer()
     stt_text = st.empty()
 
-    with sr.Microphone() as source:
-        r.adjust_for_ambient_noise(source)
+    with sr.AudioFile(audio_bytes) as source:
+        audio = r.record(source)
 
-        while True:
-            try:
-                audio = r.listen(source)
-                text = r.recognize_google(audio, language="es-ES")
-                stt_text.markdown(f"**Comando:** {text}")
-                break
-            except:
-                pass
+        try:
+            text = r.recognize_google(audio, language="es-ES")
+            stt_text.markdown(f"**Comando:** {text}")
+        except sr.UnknownValueError:
+            stt_text.markdown(f"**Comando:** (no se ha entendido)")
 
     # Obtener el comando y el objeto de la consulta
     words = text.split()
@@ -77,3 +87,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
