@@ -1,4 +1,4 @@
 openai
 SpeechRecognition
-pyaudio
 streamlit
+
