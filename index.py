@@ -3,7 +3,7 @@ import streamlit as st
 import speech_recognition as sr
 
 # Configurar la API key de OpenAI
-openai.api_key = "TU_API_KEY_DE_OPENAI_AQUÍ"
+openai.api_key = "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"
 
 # Definir las opciones de modelo de OpenAI
 models = ["davinci", "curie", "babbage", "ada", "text-davinci-002"]
